@@ -1,0 +1,232 @@
+/* Load fonts */
+@font-face {
+	font-family: 'Lato';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Lato Regular'), local('Lato-Regular'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/9k-RPmcnxYEPm8CNFsH2gg.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'Lato';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Lato Bold'), local('Lato-Bold'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/wkfQbvfT_02e2IWO3yYueQ.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'Lato';
+	font-style: italic;
+	font-weight: 400;
+	src: local('Lato Italic'), local('Lato-Italic'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/oUan5VrEkpzIazlUe5ieaA.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'Lato';
+	font-style: italic;
+	font-weight: 700;
+	src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/HkF_qI1x_noxlxhrhMQYED8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+/* General declarations */
+body {
+	border: 0; 
+	max-width: 60em;
+	margin: auto;
+	padding: 1em;
+	font-family: 'Lato', Verdana, Helvetica, sans-serif;
+	font-size: 1em;
+	color: #000;
+}
+
+h1 {
+	/* text-align: center; */
+	color: #000;
+}
+
+h2 {
+	font-size: 125%;
+}
+
+h3 {
+	font-size: 110%;
+	margin: 0 0 0.5em 1em;
+	padding: 0;
+}
+
+p, ul, ol, iframe, table, figure, pre, code {
+	text-align: justify;
+	margin: 0 0 1em 1em;
+	padding: 0;
+	width: calc(100% - 1em);
+}
+
+pre, code {
+	background-color: #f0f0f0;
+	padding: 1em;
+	border: 1px solid #ddd;
+	border-radius: 0.25em;
+	font-size: 90%;
+	width: calc(100% - 3em);
+}
+
+img, iframe {
+	border: none;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 0.25em;
+	border: 1px solid #c0c0c0;
+}
+
+th {
+	font-weight: bold;
+	background: #f0f0f0;
+}
+
+li {
+	margin: 0 0 0.5em 1em;
+}
+
+a {
+	color: #1772d0;
+	text-decoration:none;
+}
+
+a:focus, a:hover, a:active {
+	color: #f09228;
+	text-decoration:none;
+}
+
+/* Header material */
+/* Lab logo and personal photo */
+#logo, #photo {
+	float: right;
+	margin-left: 2em;
+}
+
+/* Navigation lists */
+nav > ul {
+	margin-left: 0;
+	list-style-type: none;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+nav > ul > li {
+	/* display: inline-block; */
+	margin-right: 1em;
+	margin-left: 0;
+}
+
+/* Teaser figure in header */
+#teaser > img {
+	width: 100%;
+	margin: 0 0 0.5em 0;
+}
+
+#teaser > figcaption {
+	font-style: italic;
+	font-size: 90%;
+}
+
+/* Personal information */
+/* Personal can potentially be merged into nav, though this is not semantically sound */
+#personal {
+	list-style-type: none;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+#personal > li {
+	display: inline-block;
+	margin-right: 1em;
+	margin-left: 0;
+}
+
+#personal > li.group {
+	display: list-item;
+}
+
+/* List of papers in personal website */
+figure.entry img {
+	display: inline-block;
+	box-sizing: border-box;
+	height: 5em;
+	width: 5em;
+	vertical-align: middle;
+	object-fit: cover;
+}
+
+figure.entry figcaption {
+	display: inline-block;
+	width: calc(100% - 1em - 5em);
+	vertical-align: middle;
+}
+
+figure.entry figcaption p {
+	margin-bottom: 0;
+}
+
+/* Different galleries: competitions, authors */
+figure.gallery, iframe.gallery, figure.person {
+	display: inline-block;
+	text-align: center;
+	margin: 0 1em 1em 1em;
+	width: calc(50% - 3em);
+}
+
+figure.gallery img {
+	display: inline-block;
+	margin: auto;
+	max-width: 100%;
+	height: 15em;
+}
+
+figure.person img {
+	border-radius: 50%;
+	width: 10em;
+	height: 10em;
+}
+
+figure.gallery figcaption, figure.person figcaption {
+	margin-top: 0.25em;
+	text-align: center;
+}
+
+.award {
+	color: #f09228;
+	margin-left: 1em;
+}
+
+.distinction {
+	margin-left: 1em;
+}
+
+/* For course competitions */
+.fa-trophy {
+	color: #f09228;
+}
+
+/* Copy button for bibtex entries */
+.copy {
+	position: relative;
+	float: right;
+	border: none;
+	/* background-color: #e7e7e7; */
+	border-radius: 0.25em;
+	padding: 0.25em;
+}
+
+.copy:focus, .copy:hover, .copy:active {
+	background-color: #d0d0d0;
+	cursor: pointer;
+}
+
+/* Footer material */
+footer {
+	font-style: italic;
+}
