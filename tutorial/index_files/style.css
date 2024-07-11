@@ -158,6 +158,7 @@ figure.entry img {
 	height: 5em;
 	width: 5em;
 	vertical-align: middle;
+	object-fit: cover;
 }
 
 figure.entry figcaption {
@@ -196,9 +197,18 @@ figure.gallery figcaption, figure.person figcaption {
 	text-align: center;
 }
 
+.award {
+	color: #f09228;
+	margin-left: 1em;
+}
+
+.distinction {
+	margin-left: 1em;
+}
+
 /* For course competitions */
 .fa-trophy {
-	color: orange;
+	color: #f09228;
 }
 
 /* Copy button for bibtex entries */
