@@ -13,9 +13,9 @@ Even though these website templates are designed for the [Carnegie Mellon comput
 * use your own Font Awesome kit,
 * if possible, add an acknowledgment to this repository!
 
-### Figures
+## Figures
 
-Figures in the templates (for example, teasers) are from the example websites linked above. You should make sure to replace them with your own. To match the website width and font, your figures should have a width of `708em` and use the Lato regular font with size `10.8pt`. We recommend using `SVG` figures.
+Figures in the templates (for example, teasers) are from the example websites linked above. You should make sure to replace them with your own. To match the website width and font, your figures should have a width of 708em and use the Lato regular font with size 10.8pt. We recommend using SVG figures where possible.
 
 To help you create your own figures, the folder `assets` contains:
 * an Adobe Illustrator template you can use to create figures that are compatible with the website width and font, 
