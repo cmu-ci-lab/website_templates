@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--This line will work only if your website is hosted under a graphics.cs.cmu.edu or imaging.cs.cmu.edu domain.-->
+	<script src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
+	<link rel="icon" href="index_files/favicon.png" type="image/png">
+	<meta name="description" content="Paper title">
+	<meta name="keywords" content="Paper keywords">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="index_files/style.css" rel="stylesheet" type="text/css">
+	<title>Paper title</title>
+
+	<!--The remaining lines in HEAD are only needed for visualizations and can be removed otherwise.-->
+	<script src="index_files/ImageBox.js"></script>
+	<script src="index_files/jquery.min.js"></script>
+	<script src="index_files/jquery.twentytwenty.js"></script>
+	<link href="index_files/twentytwenty.css" rel="stylesheet" type="text/css">
+	<script src="index_files/model-viewer.min.js" type="module"></script>
+
+	<script>
+		var imageBoxes = [
+			{
+				"elements": [
+					"index_files/bmvs/dog/image/ref.png",
+					"index_files/bmvs/dog/image/ours.png",
+					"index_files/bmvs/dog/image/neus.png",
+					"index_files/bmvs/dog/image/volsdf.png",
+				],
+				"enableInsets": true,
+				"insetSize": 3.25,
+				"insetUnit": "em",
+				"insetZoom": 1.5,
+				"names": [
+					"Reference",
+					"Ours",
+					"NeuS",
+					"VolSDF"
+				],
+				"title": "Images"
+			},
+		];
+
+		function setup() {
+			var content = document.getElementById("insets");
+			
+			for (var i = 0; i < imageBoxes.length; i++)
+				new ImageBox(content, imageBoxes[i]);
+
+			$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});
+		}
+
+		function copyText() {
+			var text = document.getElementById("citation-content")
+			navigator.clipboard.writeText(text.innerText)
+		}
+	</script>
+</head>
+
+<body onload="setup();">
+	<header>
+		<a href="https://imaging.cs.cmu.edu/"><img id="logo" width="64" height="64" src="index_files/imaging.svg" alt="Carnegie Mellon Computational Imaging"></a>
+		<a href="index.html"><h1>Paper title</h1></a>
+
+		<h2><a href="https://first.author.website">First author name</a>, <a href="https://second.author.website/">Second author name</a></h2>
+
+		<h2>Publication venue and year<span class="award"><i class="fa-duotone fa-trophy fa-sm fa-fw" aria-hidden="true"></i>&nbsp;paper award (if applicable)</span></h2>
+
+		<nav>
+			<ul>
+				<!--The following lines can be removed if not needed.-->
+				<li><a href="#video"><i class="fa-brands fa-youtube"></i>&nbsp;video</a></li>
+				<li><a href="#visualization"><i class="fa-solid fa-vr-cardboard"></i>&nbsp;visualization</a></li>
+				<li><a href="#paper"><i class="fa-solid fa-file-pdf"></i>&nbsp;paper</a></li>
+				<li><a href="#code"><i class="fa-brands fa-github"></i>&nbsp;code</a></li>
+				<li><a href="#data"><i class="fa-solid fa-database"></i>&nbsp;data</a></li>
+				<li><a href="#citation"><i class="fa-solid fa-quotes"></i>&nbsp;citation</a></li>
+			</ul>
+		</nav>
+
+		<figure id="teaser">
+			<img src="index_files/teaser.svg" alt="teaser">
+			<figcaption>Teaser caption.</figcaption>
+		</figure>
+	</header>
+
+	<main>
+
+	<section>
+		<h2 id="abstract">Abstract</h2>
+		<p>Paper abstract.</p>
+	</section>
+
+	<section>
+		<h2 id="section_name">Additional section</h2>
+		<figure id="swi">
+			<img src="index_files/setup.svg" alt="figure_description">
+			<figcaption>
+				Text for additional section.
+			</figcaption>
+		</figure>
+	</section>
+
+	<section>
+		<h2 id="video">Video</h2>
+		<iframe height="528" src="https://www.youtube.com/embed/PaperYoutubeVideoId" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	</section>
+
+	<section>
+		<h2 id="results">Visualization</h2>
+		<p>Text for visualization section.</p>
+
+		<!--All of the code under this DIV is a visualization example, and should be adjusted to each paper.-->
+		<div id="visualization">
+			<div id="overlay">
+				<div class="selector-group selector-empty"></div>
+				<div class="twentytwenty-container twentytwenty-compare-4">
+					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1">
+					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2">
+					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3">
+					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4">
+				</div>
+				<div class="image-inset-container-empty"></div>
+			</div>
+			<div id="insets">
+			</div>
+			<div id="threed">
+				<ul class="selector-group selector-3d">
+					<li class="selector active" onclick="switchSrc(this, 'ours')">Ours</li>
+					<li class="selector" onclick="switchSrc(this, 'neus')">NeuS</li>
+					<li class="selector" onclick="switchSrc(this, 'volsdf')">VolSDF</li>
+				</ul>
+				<model-viewer src="index_files/bmvs/dog/mesh/ours.glb" shadow-intensity="1" camera-controls touch-action="pan-y" auto-rotate alt="ours"></model-viewer>
+				<div class="image-inset-container image-inset-container-empty"></div>
+					
+				<script type="module">
+					const modelViewer = document.querySelector("model-viewer");
+					
+					modelViewer.addEventListener("load", () => {
+						modelViewer.scale = `-1 1 -1`;
+						const material = modelViewer.model.materials[0];
+						material.pbrMetallicRoughness.setBaseColorFactor("#e09568");
+						material.pbrMetallicRoughness.setMetallicFactor(1);
+						material.pbrMetallicRoughness.setRoughnessFactor(1);
+					});
+
+					window.switchSrc = (element, name) => {
+						modelViewer.src = 'index_files/bmvs/dog/mesh/' + name + '.glb';
+						modelViewer.alt = name;
+						
+						const slides = document.querySelectorAll(".selector-3d .selector");
+						slides.forEach((element) => {element.classList.remove("active");});
+						element.classList.add("active");
+					};
+				</script>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<h2 id="resources">Resources</h2>
+
+		<p><strong id="paper"><i class="fa-solid fa-file-pdf"></i> Paper:</strong> Our paper and supplement are available on <a href="https://publisher.link">official publisher name</a>, on <a href="https://arxiv.org/abs/ArxivId">arXiv</a>, and <a href=index_files/paper.pdf>locally</a>.</p>
+
+		<p><strong id="poster"><i class="fa-solid fa-sign-posts"></i> Poster:</strong> Our poster is available <a href="index_files/poster.pdf">here</a>.</p>
+
+		<p><strong id="presentation"><i class="fa-solid fa-presentation-screen"></i> Presentation:</strong> Our presentation slides are available <a href="index_files/presentation.pdf">here</a>.</p>
+
+		<p><strong id="code"><i class="fa-brands fa-github"></i> Code:</strong> Our code is available on <a href="https://github.com/cmu-ci-lab/GitHubLink">Github</a>.</p>
+
+		<p><strong id="data"><i class="fa-solid fa-database"></i> Data:</strong> The data to reproduce our experiments is available <a href="https://data.link">here</a>.</p>
+	</section>
+
+	<section>
+		<h2 id="citation">Citation</h2>
+		<!--The bibtex entry should be adjusted depending on the venue (e.g., @article versus @inproceedings).-->
+		<pre><button class="copy" onclick="copyText()"><i class="fa fa-clipboard"></i></button><span id="citation-content">@article{BibtexEntryName,
+	title={{Paper Title}},
+	journal={Journal Name},
+	publisher={Publisher Name},
+	author={Author Names},
+	year={Publication Year}
+}</span></pre>
+	</section>
+
+	<section>
+		<h2 id="acknowledgments">Acknowledgments</h2>
+		<p>Paper acknowledgments.</p>
+	</section>
+	</main>
+</body>
+</html>
