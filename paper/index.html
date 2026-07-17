@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Paper title">
+	<meta name="keywords" content="Paper keywords">
+	<!--Social preview metadata: fill in per website; og:image must be an absolute URL to a raster (PNG or JPEG) image.-->
+	<meta property="og:title" content="Paper title">
+	<meta property="og:description" content="Paper abstract.">
+	<meta property="og:image" content="https://your.website/index_files/preview.png">
+	<meta property="og:type" content="article">
+	<meta name="twitter:card" content="summary_large_image">
 	<!--This line will work only if your website is hosted under a graphics.cs.cmu.edu or imaging.cs.cmu.edu domain.-->
 	<script src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
 	<link rel="icon" href="index_files/favicon.png" type="image/png">
-	<meta name="description" content="Paper title">
-	<meta name="keywords" content="Paper keywords">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="index_files/style.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="index_files/style.css" type="text/css">
 	<title>Paper title</title>
 
 	<!--The remaining lines in HEAD are only needed for visualizations and can be removed otherwise.-->
@@ -52,7 +58,11 @@
 
 		function copyText() {
 			var text = document.getElementById("citation-content")
-			navigator.clipboard.writeText(text.innerText)
+			navigator.clipboard.writeText(text.innerText).then(function() {
+				var icon = document.querySelector(".copy > i");
+				icon.className = "fa fa-check";
+				setTimeout(function() { icon.className = "fa fa-clipboard"; }, 1500);
+			})
 		}
 	</script>
 </head>
@@ -69,12 +79,12 @@
 		<nav>
 			<ul>
 				<!--The following lines can be removed if not needed.-->
-				<li><a href="#video"><i class="fa-brands fa-youtube"></i>&nbsp;video</a></li>
-				<li><a href="#visualization"><i class="fa-solid fa-vr-cardboard"></i>&nbsp;visualization</a></li>
-				<li><a href="#paper"><i class="fa-solid fa-file-pdf"></i>&nbsp;paper</a></li>
-				<li><a href="#code"><i class="fa-brands fa-github"></i>&nbsp;code</a></li>
-				<li><a href="#data"><i class="fa-solid fa-database"></i>&nbsp;data</a></li>
-				<li><a href="#citation"><i class="fa-solid fa-quotes"></i>&nbsp;citation</a></li>
+				<li><a href="#video"><i class="fa-brands fa-youtube" aria-hidden="true"></i>&nbsp;video</a></li>
+				<li><a href="#visualization"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i>&nbsp;visualization</a></li>
+				<li><a href="#paper"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i>&nbsp;paper</a></li>
+				<li><a href="#code"><i class="fa-brands fa-github" aria-hidden="true"></i>&nbsp;code</a></li>
+				<li><a href="#data"><i class="fa-solid fa-database" aria-hidden="true"></i>&nbsp;data</a></li>
+				<li><a href="#citation"><i class="fa-solid fa-quotes" aria-hidden="true"></i>&nbsp;citation</a></li>
 			</ul>
 		</nav>
 
@@ -103,7 +113,7 @@
 
 	<section>
 		<h2 id="video">Video</h2>
-		<iframe height="528" src="https://www.youtube.com/embed/PaperYoutubeVideoId" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+		<iframe class="video" src="https://www.youtube.com/embed/PaperYoutubeVideoId" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 	</section>
 
 	<section>
@@ -115,10 +125,10 @@
 			<div id="overlay">
 				<div class="selector-group selector-empty"></div>
 				<div class="twentytwenty-container twentytwenty-compare-4">
-					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1">
-					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2">
-					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3">
-					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4">
+					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1" loading="lazy">
+					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2" loading="lazy">
+					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3" loading="lazy">
+					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4" loading="lazy">
 				</div>
 				<div class="image-inset-container-empty"></div>
 			</div>
@@ -160,21 +170,21 @@
 	<section>
 		<h2 id="resources">Resources</h2>
 
-		<p><strong id="paper"><i class="fa-solid fa-file-pdf"></i>&nbsp;Paper:</strong> Our paper and supplement are available on <a href="https://publisher.link">official publisher name</a>, on <a href="https://arxiv.org/abs/ArxivId">arXiv</a>, and <a href=index_files/paper.pdf>locally</a>.</p>
+		<p><strong id="paper"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i>&nbsp;Paper:</strong> Our paper and supplement are available on <a href="https://publisher.link">official publisher name</a>, on <a href="https://arxiv.org/abs/ArxivId">arXiv</a>, and <a href=index_files/paper.pdf>locally</a>.</p>
 
-		<p><strong id="poster"><i class="fa-solid fa-sign-posts"></i>&nbsp;Poster:</strong> Our poster is available <a href="index_files/poster.pdf">here</a>.</p>
+		<p><strong id="poster"><i class="fa-solid fa-sign-posts" aria-hidden="true"></i>&nbsp;Poster:</strong> Our poster is available <a href="index_files/poster.pdf">here</a>.</p>
 
-		<p><strong id="presentation"><i class="fa-solid fa-presentation-screen"></i>&nbsp;Presentation:</strong> Our presentation slides are available <a href="index_files/presentation.pdf">here</a>.</p>
+		<p><strong id="presentation"><i class="fa-solid fa-presentation-screen" aria-hidden="true"></i>&nbsp;Presentation:</strong> Our presentation slides are available <a href="index_files/presentation.pdf">here</a>.</p>
 
-		<p><strong id="code"><i class="fa-brands fa-github"></i>&nbsp;Code:</strong> Our code is available on <a href="https://github.com/cmu-ci-lab/GitHubLink">Github</a>.</p>
+		<p><strong id="code"><i class="fa-brands fa-github" aria-hidden="true"></i>&nbsp;Code:</strong> Our code is available on <a href="https://github.com/cmu-ci-lab/GitHubLink">Github</a>.</p>
 
-		<p><strong id="data"><i class="fa-solid fa-database"></i>&nbsp;Data:</strong> The data to reproduce our experiments is available <a href="https://data.link">here</a>.</p>
+		<p><strong id="data"><i class="fa-solid fa-database" aria-hidden="true"></i>&nbsp;Data:</strong> The data to reproduce our experiments is available <a href="https://data.link">here</a>.</p>
 	</section>
 
 	<section>
 		<h2 id="citation">Citation</h2>
 		<!--The bibtex entry should be adjusted depending on the venue (e.g., @article versus @inproceedings).-->
-		<pre><button class="copy" onclick="copyText()"><i class="fa fa-clipboard"></i></button><span id="citation-content">@article{BibtexEntryName,
+		<pre><button class="copy" onclick="copyText()" aria-label="Copy citation"><i class="fa fa-clipboard" aria-hidden="true"></i></button><span id="citation-content">@article{BibtexEntryName,
 	title={{Paper Title}},
 	journal={Journal Name},
 	publisher={Publisher Name},

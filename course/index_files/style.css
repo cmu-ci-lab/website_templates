@@ -1,35 +1,43 @@
+/* ============================================================
+   Shared base — keep byte-identical across all four templates
+   ============================================================ */
+
 /* Load fonts */
 @font-face {
 	font-family: 'Lato';
 	font-style: normal;
 	font-weight: 400;
-	src: local('Lato Regular'), local('Lato-Regular'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/9k-RPmcnxYEPm8CNFsH2gg.woff) format('woff');
+	font-display: swap;
+	src: url(fonts/lato-regular.woff2) format('woff2');
 }
 
 @font-face {
 	font-family: 'Lato';
 	font-style: normal;
 	font-weight: 700;
-	src: local('Lato Bold'), local('Lato-Bold'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/wkfQbvfT_02e2IWO3yYueQ.woff) format('woff');
+	font-display: swap;
+	src: url(fonts/lato-bold.woff2) format('woff2');
 }
 
 @font-face {
 	font-family: 'Lato';
 	font-style: italic;
 	font-weight: 400;
-	src: local('Lato Italic'), local('Lato-Italic'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/oUan5VrEkpzIazlUe5ieaA.woff) format('woff');
+	font-display: swap;
+	src: url(fonts/lato-italic.woff2) format('woff2');
 }
 
 @font-face {
 	font-family: 'Lato';
 	font-style: italic;
 	font-weight: 700;
-	src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/HkF_qI1x_noxlxhrhMQYED8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+	font-display: swap;
+	src: url(fonts/lato-bolditalic.woff2) format('woff2');
 }
 
 /* General declarations */
 body {
-	border: 0; 
+	border: 0;
 	max-width: 60em;
 	margin: auto;
 	padding: 1em;
@@ -67,10 +75,23 @@ pre, code {
 	border-radius: 0.25em;
 	font-size: 90%;
 	width: calc(100% - 3em);
+	overflow-x: auto;
 }
 
 img, iframe {
 	border: none;
+}
+
+/* Images never overflow their container; height follows to keep aspect ratio */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Video embeds keep a 16:9 aspect ratio at any width */
+iframe.video {
+	aspect-ratio: 16 / 9;
+	height: auto;
 }
 
 table {
@@ -97,13 +118,13 @@ a {
 }
 
 a:focus, a:hover, a:active {
-	color: #f09228;
+	color: #b35500;
 	text-decoration:none;
 }
 
 /* Header material */
-/* Lab logo and personal photo */
-#logo, #photo {
+/* Lab logo */
+#logo {
 	float: right;
 	margin-left: 2em;
 }
@@ -134,21 +155,29 @@ nav > ul > li {
 }
 
 /* Personal information */
-/* Personal can potentially be merged into nav, though this is not semantically sound */
+/* Personal photo beside a multi-column contact list */
 #personal {
+	display: flex;
+	align-items: center;
+}
+
+#personal > img {
+	margin: 0 0 1em 1em;
+}
+
+#personal > ul {
+	display: flex;
+	flex-flow: wrap column;
+	width: fit-content;
+	max-height: 150px;
+	gap: 0.5em;
+	column-gap: 1em;
 	list-style-type: none;
 	font-weight: bold;
-	font-size: 110%;
 }
 
-#personal > li {
-	display: inline-block;
-	margin-right: 1em;
-	margin-left: 0;
-}
-
-#personal > li.group {
-	display: list-item;
+#personal > ul > li {
+	margin: 0;
 }
 
 /* List of papers in personal website */
@@ -198,8 +227,11 @@ figure.gallery figcaption, figure.person figcaption {
 }
 
 .award {
-	color: #f09228;
-	margin-left: 1em;
+	color: #b35500;
+	background: #fff3e0;
+	margin-left: 0.5em;
+	padding: 0.2em 0.4em;
+	border-radius: 0.25em;
 }
 
 .distinction {
@@ -208,7 +240,7 @@ figure.gallery figcaption, figure.person figcaption {
 
 /* For course competitions */
 .fa-trophy {
-	color: #f09228;
+	color: #b35500;
 }
 
 /* Copy button for bibtex entries */
@@ -230,3 +262,35 @@ figure.gallery figcaption, figure.person figcaption {
 footer {
 	font-style: italic;
 }
+
+/* Adjustments for narrow screens */
+@media (max-width: 48em) {
+	/* Stack the personal photo and contact list vertically */
+	#personal {
+		display: block;
+	}
+
+	#personal > img {
+		display: block;
+		margin: 0 auto 1em auto;
+	}
+
+	#personal > ul {
+		max-height: none;
+	}
+
+	/* Let wide tables scroll sideways instead of overflowing the page */
+	table {
+		display: block;
+		overflow-x: auto;
+	}
+
+	/* Justified text reads poorly in narrow columns */
+	p, ul, ol, iframe, table, figure, pre, code {
+		text-align: left;
+	}
+}
+
+/* ============================================================
+   Template-specific styles (this template only)
+   ============================================================ */

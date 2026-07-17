@@ -13,6 +13,19 @@ Even though these website templates are designed for the [Carnegie Mellon comput
 * use your own Font Awesome kit,
 * if possible, add an acknowledgment to this repository!
 
+## Stylesheets
+
+Each template ships its own self-contained `index_files/style.css`, split into two marked sections:
+* a shared base section that must remain byte-identical across all four templates,
+* a template-specific section (below the "Template-specific styles" marker) for rules used only by that template.
+
+If you edit the base section in one template, apply the same change to the other three. You can check for drift by verifying that all four checksums below match:
+```bash
+for t in personal paper course tutorial; do sed -n '1,/Template-specific styles/p' $t/index_files/style.css | md5sum; done
+```
+
+The Lato font used by the templates is self-hosted, with WOFF2 files duplicated in each template under `index_files/fonts/`.
+
 ## Figures
 
 Figures in the templates (for example, teasers) are from the example websites linked above. You should make sure to replace them with your own. To match the website width and font, your figures should have a width of 708em and use the Lato regular font with size 10.8pt. We recommend using SVG figures where possible.

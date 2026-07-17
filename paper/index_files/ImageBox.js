@@ -18,13 +18,26 @@ var ImageBox = function(parent, config) {
 		selector.addEventListener("mouseover", function(idx, event) {
 			this.selectImage(idx);
 		}.bind(this, i));
-		
+
+		selector.addEventListener("click", function(idx, event) {
+			this.selectImage(idx);
+		}.bind(this, i));
+
+		selector.tabIndex = 0;
+		selector.addEventListener("keydown", function(idx, event) {
+			if (event.key == "Enter" || event.key == " ") {
+				event.preventDefault();
+				this.selectImage(idx);
+			}
+		}.bind(this, i));
+
 		this.selectors.push(selector);
 		this.selectorGroup.appendChild(selector);
 	}
 	
-	this.display = document.createElement("img"); 
+	this.display = document.createElement("img");
 	this.display.src = this.elements[0];
+	this.display.alt = this.names[0];
 	this.display.className = "image-display";
 	
 	this.containerDiv = document.createElement("div"); 
@@ -43,7 +56,7 @@ var ImageBox = function(parent, config) {
 	
 		this.insetZoom = config.insetZoom;
 		this.insetSize = config.insetSize;
-		this.insetUnit = config.insetUnit;
+		this.insetUnit = config.insetUnit || "px";
 		this.insets = []
 		this.insetContainers = []
 		for (var i = 0; i < this.elements.length; i++) {
@@ -80,6 +93,8 @@ var ImageBox = function(parent, config) {
 }
 
 ImageBox.prototype.setupInsets = function() {
+	if (!this.insets)
+		return;
 	var format = this.dummyImage.naturalWidth *this.insetZoom + "px "
 			+ this.dummyImage.naturalHeight*this.insetZoom + "px";
 	for (var i = 0; i < this.insets.length; i++)
@@ -95,12 +110,13 @@ ImageBox.prototype.selectImage = function(idx) {
 	}
 
 	this.display.src = this.elements[idx];
+	this.display.alt = this.names[idx];
 }
 
 ImageBox.prototype.keyPressHandler = function(event) {
 	var inc = event.charCode == "+".charCodeAt(0);
 	var dec = event.charCode == "-".charCodeAt(0);
-	if (inc || dec) {
+	if ((inc || dec) && this.insetContainers) {
 		if (inc)
 			this.insetSize *= 2;
 		else
