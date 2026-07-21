@@ -1,24 +1,39 @@
+/*!
+ * Based on TwentyTwenty (https://github.com/zurb/twentytwenty)
+ * Copyright 2018 zurb
+ * Modified by the Carnegie Mellon computational imaging lab to support
+ * comparison of up to four images with a two-axis split.
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
 (function($) {
 
     $.fn.twentytwenty = function(options) {
         var options = $.extend({
             default_offset_pct_x: 0.5,
             default_offset_pct_y: 0.5,
-            click_needed: false,
         }, options);
         return this.each(function() {
 
             var sliderPctX = options.default_offset_pct_x;
             var sliderPctY = options.default_offset_pct_y;
             var container = $(this);
-            var clickNeeded = options.click_needed;
-
 
             var numImgs = container.children("img").length;
-            var imgs = [container.children("img:eq(0)"),
-                        container.children("img:eq(1)"),
-                        container.children("img:eq(2)"),
-                        container.children("img:eq(3)")];
+            var imgs = [container.children("img").eq(0),
+                        container.children("img").eq(1),
+                        container.children("img").eq(2),
+                        container.children("img").eq(3)];
 
             var temp = 0;
             var referenceIndex = 0;
@@ -61,6 +76,10 @@
                           overlay.find(".twentytwenty-frame-2"),
                           overlay.find(".twentytwenty-frame-3"),
                           overlay.find(".twentytwenty-frame-4")];
+
+            // A knob at the split point makes the comparison discoverable on desktop.
+            overlay.append("<div class='twentytwenty-handle'></div>");
+            var handle = overlay.find(".twentytwenty-handle");
             
 
             var calcOffset = function(dimensionPctX, dimensionPctY) {
@@ -125,6 +144,8 @@
                     labels[3].css({left: offset.cw2, top: offset.ch2});
                 }
 
+                handle.css({left: offset.cw, top: offset.ch});
+
                 container.css("height", offset.h);
             };
 
@@ -147,13 +168,59 @@
                 adjustSlider(sliderPctX, sliderPctY);
             });
 
-            container.on("move mousemove", function(e) {
-                    sliderPctX = Math.max(0, Math.min(1, (e.pageX - container.offset().left) / imgs[referenceIndex].width()));
-                    sliderPctY = Math.max(0, Math.min(1, (e.pageY - container.offset().top) / imgs[referenceIndex].height()));
-                    adjustSlider(sliderPctX, sliderPctY);
+            // Move the split to a pointer position. Pointer Events unify mouse, touch, and pen.
+            var setSplitFromPointer = function(oe) {
+                sliderPctX = Math.max(0, Math.min(1, (oe.pageX - container.offset().left) / imgs[referenceIndex].width()));
+                sliderPctY = Math.max(0, Math.min(1, (oe.pageY - container.offset().top) / imgs[referenceIndex].height()));
+                adjustSlider(sliderPctX, sliderPctY);
+            };
+
+            var dragging = false;
+
+            container.on("pointerdown", function(e) {
+                var oe = e.originalEvent;
+                dragging = true;
+                // Keep receiving moves even if the finger or cursor leaves the container mid-drag.
+                if (this.setPointerCapture)
+                    this.setPointerCapture(oe.pointerId);
+                setSplitFromPointer(oe);
             });
-            
-            container.find("img").on("mousedown", function(event) {
+
+            container.on("pointermove", function(e) {
+                var oe = e.originalEvent;
+                // A mouse tracks on hover, as before; touch and pen track only while pressed.
+                if (oe.pointerType === "mouse" || dragging)
+                    setSplitFromPointer(oe);
+            });
+
+            container.on("pointerup pointercancel", function() {
+                dragging = false;
+            });
+
+            // Keyboard support: arrow keys nudge the split by 5%, Home/End jump to the corners.
+            container.attr("tabindex", 0);
+            container.attr("aria-label", "Image comparison. Use the arrow keys to move the split between the images.");
+            container.on("keydown", function(e) {
+                var oe = e.originalEvent;
+                var step = 0.05;
+                var handled = true;
+                switch (oe.key) {
+                    case "ArrowLeft":  sliderPctX = Math.max(0, sliderPctX - step); break;
+                    case "ArrowRight": sliderPctX = Math.min(1, sliderPctX + step); break;
+                    case "ArrowUp":    sliderPctY = Math.max(0, sliderPctY - step); break;
+                    case "ArrowDown":  sliderPctY = Math.min(1, sliderPctY + step); break;
+                    case "Home":       sliderPctX = 0; sliderPctY = 0; break;
+                    case "End":        sliderPctX = 1; sliderPctY = 1; break;
+                    default: handled = false;
+                }
+                if (handled) {
+                    e.preventDefault(); // don't let the arrow keys scroll the page too
+                    adjustSlider(sliderPctX, sliderPctY);
+                }
+            });
+
+            // Don't let the browser start an image drag while sliding.
+            container.find("img").on("dragstart", function(event) {
                 event.preventDefault();
             });
 

@@ -3,29 +3,46 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#ffffff">
 	<meta name="description" content="Paper title">
-	<meta name="keywords" content="Paper keywords">
 	<!--Social preview metadata: fill in per website; og:image must be an absolute URL to a raster (PNG or JPEG) image.-->
 	<meta property="og:title" content="Paper title">
 	<meta property="og:description" content="Paper abstract.">
 	<meta property="og:image" content="https://your.website/index_files/preview.png">
+	<meta property="og:url" content="https://your.website/">
 	<meta property="og:type" content="article">
 	<meta name="twitter:card" content="summary_large_image">
+	<!--If this page is reachable at multiple URLs, uncomment this line and set it to the preferred URL.-->
+	<!--<link rel="canonical" href="https://your.website/">-->
+	<!--Google Scholar metadata: uncomment and fill in to have Scholar index the paper. Repeat citation_author once per author, in paper order, as Last name, First name; citation_pdf_url must be an absolute URL; remove citation_arxiv_id if the paper is not on arXiv.-->
+	<!--
+	<meta name="citation_title" content="Paper title">
+	<meta name="citation_author" content="First author name">
+	<meta name="citation_author" content="Second author name">
+	<meta name="citation_publication_date" content="YYYY/MM/DD">
+	<meta name="citation_journal_title" content="Journal or conference name">
+	<meta name="citation_pdf_url" content="https://your.website/index_files/paper.pdf">
+	<meta name="citation_arxiv_id" content="XXXX.XXXXX">
+	-->
 	<!--This line will work only if your website is hosted under a graphics.cs.cmu.edu or imaging.cs.cmu.edu domain.-->
-	<script src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
+	<script defer src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
 	<link rel="icon" href="index_files/favicon.png" type="image/png">
-	<link rel="stylesheet" href="index_files/style.css" type="text/css">
+	<link rel="icon" href="index_files/imaging.svg" type="image/svg+xml">
+	<!--Preload only the two font faces used above the fold.-->
+	<link rel="preload" href="index_files/fonts/lato-regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="index_files/fonts/lato-bold.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="stylesheet" href="index_files/style.css">
 	<title>Paper title</title>
 
 	<!--The remaining lines in HEAD are only needed for visualizations and can be removed otherwise.-->
-	<script src="index_files/ImageBox.js"></script>
-	<script src="index_files/jquery.min.js"></script>
-	<script src="index_files/jquery.twentytwenty.js"></script>
-	<link href="index_files/twentytwenty.css" rel="stylesheet" type="text/css">
+	<script defer src="index_files/ImageBox.js"></script>
+	<script defer src="index_files/jquery.min.js"></script>
+	<script defer src="index_files/jquery.twentytwenty.js"></script>
+	<link href="index_files/twentytwenty.css" rel="stylesheet">
 	<script src="index_files/model-viewer.min.js" type="module"></script>
 
 	<script>
-		var imageBoxes = [
+		const imageBoxes = [
 			{
 				"elements": [
 					"index_files/bmvs/dog/image/ref.png",
@@ -47,88 +64,117 @@
 			},
 		];
 
+		// The visualization scripts are deferred, so they are ready by DOMContentLoaded.
 		function setup() {
-			var content = document.getElementById("insets");
-			
-			for (var i = 0; i < imageBoxes.length; i++)
-				new ImageBox(content, imageBoxes[i]);
+			// Zoomable insets — only if ImageBox is present (part of the removable visualization block).
+			const insets = document.getElementById("insets");
+			if (insets && typeof ImageBox !== "undefined") {
+				for (const config of imageBoxes)
+					new ImageBox(insets, config);
+			}
 
-			$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});
+			// Comparison slider — needs jQuery and the plugin; wait for the source images to decode so it can read their dimensions.
+			const containers = document.querySelectorAll(".twentytwenty-container");
+			if (containers.length && window.jQuery && jQuery.fn.twentytwenty) {
+				const images = Array.from(document.querySelectorAll(".twentytwenty-container img"));
+				Promise.all(images.map((img) => img.decode().catch(() => {})))
+					.then(() => jQuery(".twentytwenty-container").twentytwenty({default_offset_pct_x: 0.5, default_offset_pct_y: 0.5}));
+			}
+
+			// Copy-to-clipboard for the citation (present even without the visualization block).
+			const copyButton = document.querySelector(".copy");
+			if (copyButton)
+				copyButton.addEventListener("click", copyText);
 		}
 
 		function copyText() {
-			var text = document.getElementById("citation-content")
-			navigator.clipboard.writeText(text.innerText).then(function() {
-				var icon = document.querySelector(".copy > i");
-				icon.className = "fa fa-check";
-				setTimeout(function() { icon.className = "fa fa-clipboard"; }, 1500);
-			})
+			const button = document.querySelector(".copy");
+			const content = document.getElementById("citation-content");
+			if (!button || !content || !navigator.clipboard)
+				return;
+			const icon = button.querySelector("i");
+			const defaultLabel = button.getAttribute("aria-label");
+			navigator.clipboard.writeText(content.innerText).then(() => {
+				if (icon) icon.className = "fa-solid fa-check";
+				button.setAttribute("aria-label", "Citation copied");
+				setTimeout(() => {
+					if (icon) icon.className = "fa-solid fa-clipboard";
+					button.setAttribute("aria-label", defaultLabel);
+				}, 1500);
+			}).catch(() => {
+				button.setAttribute("aria-label", "Copy failed");
+				setTimeout(() => button.setAttribute("aria-label", defaultLabel), 1500);
+			});
 		}
+
+		document.addEventListener("DOMContentLoaded", setup);
 	</script>
 </head>
 
-<body onload="setup();">
+<body>
+	<a class="skip-link visually-hidden" href="#main">Skip to main content</a>
+
 	<header>
 		<a href="https://imaging.cs.cmu.edu/"><img id="logo" width="64" height="64" src="index_files/imaging.svg" alt="Carnegie Mellon Computational Imaging"></a>
 		<a href="index.html"><h1>Paper title</h1></a>
 
-		<h2><a href="https://first.author.website">First author name</a>, <a href="https://second.author.website/">Second author name</a></h2>
+		<p class="authors"><a href="https://first.author.website">First author name</a>, <a href="https://second.author.website/">Second author name</a></p>
 
-		<h2>Publication venue and year<span class="award"><i class="fa-duotone fa-trophy fa-sm fa-fw" aria-hidden="true"></i>&nbsp;paper award (if applicable)</span></h2>
+		<p class="venue">Publication venue and year<span class="award"><i class="fa-duotone fa-trophy fa-sm fa-fw" aria-hidden="true"></i>&nbsp;paper award (if applicable)</span></p>
 
-		<nav>
+		<nav aria-label="Page sections">
 			<ul>
 				<!--The following lines can be removed if not needed.-->
-				<li><a href="#video"><i class="fa-brands fa-youtube" aria-hidden="true"></i>&nbsp;video</a></li>
-				<li><a href="#visualization"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i>&nbsp;visualization</a></li>
-				<li><a href="#paper"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i>&nbsp;paper</a></li>
-				<li><a href="#code"><i class="fa-brands fa-github" aria-hidden="true"></i>&nbsp;code</a></li>
-				<li><a href="#data"><i class="fa-solid fa-database" aria-hidden="true"></i>&nbsp;data</a></li>
-				<li><a href="#citation"><i class="fa-solid fa-quotes" aria-hidden="true"></i>&nbsp;citation</a></li>
+				<li><a href="#video"><i class="fa-brands fa-youtube fa-fw" aria-hidden="true"></i>&nbsp;video</a></li>
+				<li><a href="#visualization"><i class="fa-solid fa-vr-cardboard fa-fw" aria-hidden="true"></i>&nbsp;visualization</a></li>
+				<li><a href="#paper"><i class="fa-solid fa-file-pdf fa-fw" aria-hidden="true"></i>&nbsp;paper</a></li>
+				<li><a href="#code"><i class="fa-brands fa-github fa-fw" aria-hidden="true"></i>&nbsp;code</a></li>
+				<li><a href="#data"><i class="fa-solid fa-database fa-fw" aria-hidden="true"></i>&nbsp;data</a></li>
+				<li><a href="#citation"><i class="fa-solid fa-quotes fa-fw" aria-hidden="true"></i>&nbsp;citation</a></li>
 			</ul>
 		</nav>
 
 		<figure id="teaser">
-			<img src="index_files/teaser.svg" alt="teaser">
+			<img src="index_files/teaser.svg" alt="One-sentence description of the teaser figure" width="708" height="199" fetchpriority="high">
 			<figcaption>Teaser caption.</figcaption>
 		</figure>
 	</header>
 
-	<main>
+	<main id="main" tabindex="-1">
 
-	<section>
-		<h2 id="abstract">Abstract</h2>
+	<section id="abstract">
+		<h2>Abstract</h2>
 		<p>Paper abstract.</p>
 	</section>
 
-	<section>
-		<h2 id="section_name">Additional section</h2>
-		<figure id="swi">
-			<img src="index_files/setup.svg" alt="figure_description">
+	<section id="additional">
+		<h2>Additional section</h2>
+		<figure>
+			<img src="index_files/setup.svg" alt="One-sentence description of the figure">
 			<figcaption>
 				Text for additional section.
 			</figcaption>
 		</figure>
 	</section>
 
-	<section>
-		<h2 id="video">Video</h2>
-		<iframe class="video" src="https://www.youtube.com/embed/PaperYoutubeVideoId" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	<section id="video">
+		<h2>Video</h2>
+		<iframe class="video" src="https://www.youtube-nocookie.com/embed/PaperYoutubeVideoId" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 	</section>
 
-	<section>
-		<h2 id="results">Visualization</h2>
+	<section id="visualization">
+		<h2>Visualization</h2>
 		<p>Text for visualization section.</p>
 
 		<!--All of the code under this DIV is a visualization example, and should be adjusted to each paper.-->
-		<div id="visualization">
+		<div id="demo">
 			<div id="overlay">
 				<div class="selector-group selector-empty"></div>
 				<div class="twentytwenty-container twentytwenty-compare-4">
-					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1" loading="lazy">
-					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2" loading="lazy">
-					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3" loading="lazy">
-					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4" loading="lazy">
+					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1">
+					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2">
+					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3">
+					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4">
 				</div>
 				<div class="image-inset-container-empty"></div>
 			</div>
@@ -136,16 +182,23 @@
 			</div>
 			<div id="threed">
 				<ul class="selector-group selector-3d">
-					<li class="selector active" onclick="switchSrc(this, 'ours')">Ours</li>
-					<li class="selector" onclick="switchSrc(this, 'neus')">NeuS</li>
-					<li class="selector" onclick="switchSrc(this, 'volsdf')">VolSDF</li>
+					<li><button type="button" class="selector active" data-mesh="ours" aria-pressed="true">Ours</button></li>
+					<li><button type="button" class="selector" data-mesh="neus" aria-pressed="false">NeuS</button></li>
+					<li><button type="button" class="selector" data-mesh="volsdf" aria-pressed="false">VolSDF</button></li>
 				</ul>
-				<model-viewer src="index_files/bmvs/dog/mesh/ours.glb" shadow-intensity="1" camera-controls touch-action="pan-y" auto-rotate alt="ours"></model-viewer>
+				<!--Optionally add a poster attribute pointing to a rendered snapshot of the model, shown while the mesh loads (or if it cannot).-->
+				<model-viewer src="index_files/bmvs/dog/mesh/ours.glb" loading="lazy" shadow-intensity="1" camera-controls touch-action="pan-y" auto-rotate alt="3D reconstruction of the dog scene (Ours)">
+					<noscript><p>This interactive 3D model requires JavaScript and WebGL.</p></noscript>
+				</model-viewer>
 				<div class="image-inset-container image-inset-container-empty"></div>
-					
+
 				<script type="module">
 					const modelViewer = document.querySelector("model-viewer");
-					
+
+					// Respect a reader's reduced-motion preference.
+					if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+						modelViewer.removeAttribute("auto-rotate");
+
 					modelViewer.addEventListener("load", () => {
 						modelViewer.scale = `-1 1 -1`;
 						const material = modelViewer.model.materials[0];
@@ -154,37 +207,42 @@
 						material.pbrMetallicRoughness.setRoughnessFactor(1);
 					});
 
-					window.switchSrc = (element, name) => {
-						modelViewer.src = 'index_files/bmvs/dog/mesh/' + name + '.glb';
-						modelViewer.alt = name;
-						
-						const slides = document.querySelectorAll(".selector-3d .selector");
-						slides.forEach((element) => {element.classList.remove("active");});
-						element.classList.add("active");
-					};
+					const meshSelectors = document.querySelectorAll(".selector-3d .selector");
+					meshSelectors.forEach((button) => {
+						button.addEventListener("click", () => {
+							modelViewer.src = `index_files/bmvs/dog/mesh/${button.dataset.mesh}.glb`;
+							modelViewer.alt = `3D reconstruction of the dog scene (${button.textContent})`;
+							meshSelectors.forEach((other) => {
+								other.classList.remove("active");
+								other.setAttribute("aria-pressed", "false");
+							});
+							button.classList.add("active");
+							button.setAttribute("aria-pressed", "true");
+						});
+					});
 				</script>
 			</div>
 		</div>
 	</section>
 
-	<section>
-		<h2 id="resources">Resources</h2>
+	<section id="resources">
+		<h2>Resources</h2>
 
-		<p><strong id="paper"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i>&nbsp;Paper:</strong> Our paper and supplement are available on <a href="https://publisher.link">official publisher name</a>, on <a href="https://arxiv.org/abs/ArxivId">arXiv</a>, and <a href=index_files/paper.pdf>locally</a>.</p>
+		<p id="paper"><strong><i class="fa-solid fa-file-pdf" aria-hidden="true"></i>&nbsp;Paper:</strong> Our paper and supplement are available on <a href="https://publisher.link">official publisher name</a>, on <a href="https://arxiv.org/abs/ArxivId">arXiv</a>, and <a href="index_files/paper.pdf">locally</a>.</p>
 
-		<p><strong id="poster"><i class="fa-solid fa-sign-posts" aria-hidden="true"></i>&nbsp;Poster:</strong> Our poster is available <a href="index_files/poster.pdf">here</a>.</p>
+		<p id="poster"><strong><i class="fa-solid fa-sign-posts" aria-hidden="true"></i>&nbsp;Poster:</strong> Our poster is available <a href="index_files/poster.pdf">here</a>.</p>
 
-		<p><strong id="presentation"><i class="fa-solid fa-presentation-screen" aria-hidden="true"></i>&nbsp;Presentation:</strong> Our presentation slides are available <a href="index_files/presentation.pdf">here</a>.</p>
+		<p id="presentation"><strong><i class="fa-solid fa-presentation-screen" aria-hidden="true"></i>&nbsp;Presentation:</strong> Our presentation slides are available <a href="index_files/presentation.pdf">here</a>.</p>
 
-		<p><strong id="code"><i class="fa-brands fa-github" aria-hidden="true"></i>&nbsp;Code:</strong> Our code is available on <a href="https://github.com/cmu-ci-lab/GitHubLink">Github</a>.</p>
+		<p id="code"><strong><i class="fa-brands fa-github" aria-hidden="true"></i>&nbsp;Code:</strong> Our code is available on <a href="https://github.com/cmu-ci-lab/GitHubLink">Github</a>.</p>
 
-		<p><strong id="data"><i class="fa-solid fa-database" aria-hidden="true"></i>&nbsp;Data:</strong> The data to reproduce our experiments is available <a href="https://data.link">here</a>.</p>
+		<p id="data"><strong><i class="fa-solid fa-database" aria-hidden="true"></i>&nbsp;Data:</strong> The data to reproduce our experiments is available <a href="https://data.link">here</a>.</p>
 	</section>
 
-	<section>
-		<h2 id="citation">Citation</h2>
+	<section id="citation">
+		<h2>Citation</h2>
 		<!--The bibtex entry should be adjusted depending on the venue (e.g., @article versus @inproceedings).-->
-		<pre><button class="copy" onclick="copyText()" aria-label="Copy citation"><i class="fa fa-clipboard" aria-hidden="true"></i></button><span id="citation-content">@article{BibtexEntryName,
+		<pre><button class="copy" type="button" aria-label="Copy citation"><i class="fa-solid fa-clipboard" aria-hidden="true"></i></button><span id="citation-content">@article{BibtexEntryName,
 	title={{Paper Title}},
 	journal={Journal Name},
 	publisher={Publisher Name},
@@ -193,8 +251,8 @@
 }</span></pre>
 	</section>
 
-	<section>
-		<h2 id="acknowledgments">Acknowledgments</h2>
+	<section id="acknowledgments">
+		<h2>Acknowledgments</h2>
 		<p>Paper acknowledgments.</p>
 	</section>
 	</main>

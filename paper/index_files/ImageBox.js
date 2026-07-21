@@ -9,10 +9,13 @@ var ImageBox = function(parent, config) {
 	
 	this.selectors = [];
 	for (var i = 0; i < this.elements.length; i++) {
-		var selector = document.createElement("li");
+		var item = document.createElement("li");
+		var selector = document.createElement("button");
+		selector.type = "button";
 		selector.className = "selector";
 		if (i == 0)
 			selector.className += " active";
+		selector.setAttribute("aria-pressed", i == 0 ? "true" : "false");
 		selector.appendChild(document.createTextNode(this.names[i]));
 		
 		selector.addEventListener("mouseover", function(idx, event) {
@@ -23,16 +26,9 @@ var ImageBox = function(parent, config) {
 			this.selectImage(idx);
 		}.bind(this, i));
 
-		selector.tabIndex = 0;
-		selector.addEventListener("keydown", function(idx, event) {
-			if (event.key == "Enter" || event.key == " ") {
-				event.preventDefault();
-				this.selectImage(idx);
-			}
-		}.bind(this, i));
-
+		item.appendChild(selector);
 		this.selectors.push(selector);
-		this.selectorGroup.appendChild(selector);
+		this.selectorGroup.appendChild(item);
 	}
 	
 	this.display = document.createElement("img");
@@ -46,7 +42,7 @@ var ImageBox = function(parent, config) {
 	this.containerDiv.appendChild(this.display);
 	parent.appendChild(this.containerDiv);
 
-	document.addEventListener("keypress", function(event) { box.keyPressHandler(event); });
+	document.addEventListener("keydown", function(event) { box.keyDownHandler(event); });
 	
 	if (config.enableInsets) {
 		this.insetBox = document.createElement("div");
@@ -103,21 +99,20 @@ ImageBox.prototype.setupInsets = function() {
 
 ImageBox.prototype.selectImage = function(idx) {
 	for (var i = 0; i < this.elements.length; i++) {
-		if (i == idx)
-			this.selectors[i].className += " active";
-		else
-			this.selectors[i].className = this.selectors[i].className.replace( /(?:^|\s)active(?!\S)/g , '');
+		var isActive = (i == idx);
+		this.selectors[i].classList.toggle("active", isActive);
+		this.selectors[i].setAttribute("aria-pressed", isActive ? "true" : "false");
 	}
 
 	this.display.src = this.elements[idx];
 	this.display.alt = this.names[idx];
 }
 
-ImageBox.prototype.keyPressHandler = function(event) {
-	var inc = event.charCode == "+".charCodeAt(0);
-	var dec = event.charCode == "-".charCodeAt(0);
-	if ((inc || dec) && this.insetContainers) {
-		if (inc)
+ImageBox.prototype.keyDownHandler = function(event) {
+	if (event.ctrlKey || event.metaKey || event.altKey)
+		return;
+	if ((event.key == "+" || event.key == "-") && this.insetContainers) {
+		if (event.key == "+")
 			this.insetSize *= 2;
 		else
 			this.insetSize /= 2;
@@ -128,7 +123,7 @@ ImageBox.prototype.keyPressHandler = function(event) {
 			this.insetContainers[i].style.width = this.insetSize + this.insetUnit;
 		}
 	} else {
-		var idx = parseInt(event.charCode) - "1".charCodeAt(0);
+		var idx = parseInt(event.key, 10) - 1;
 		if (idx >= 0 && idx < this.elements.length)
 			this.selectImage(idx);
 	}

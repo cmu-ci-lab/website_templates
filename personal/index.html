@@ -3,22 +3,31 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#ffffff">
 	<meta name="description" content="Your name">
-	<meta name="keywords" content="Your keywords">
 	<!--Social preview metadata: fill in per website; og:image must be an absolute URL to a raster (PNG or JPEG) image.-->
 	<meta property="og:title" content="Your name">
 	<meta property="og:description" content="Brief bio.">
 	<meta property="og:image" content="https://your.website/index_files/preview.png">
+	<meta property="og:url" content="https://your.website/">
 	<meta property="og:type" content="website">
 	<meta name="twitter:card" content="summary_large_image">
+	<!--If this page is reachable at multiple URLs, uncomment this line and set it to the preferred URL.-->
+	<!--<link rel="canonical" href="https://your.website/">-->
 	<!--This line will work only if your website is hosted under a graphics.cs.cmu.edu or imaging.cs.cmu.edu domain.-->
-	<script src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
+	<script defer src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
 	<link rel="icon" href="index_files/favicon.png" type="image/png">
-	<link rel="stylesheet" href="index_files/style.css" type="text/css">
+	<link rel="icon" href="index_files/imaging.svg" type="image/svg+xml">
+	<!--Preload only the two font faces used above the fold.-->
+	<link rel="preload" href="index_files/fonts/lato-regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="index_files/fonts/lato-bold.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="stylesheet" href="index_files/style.css">
 	<title>Your name</title>
 </head>
 
 <body>
+	<a class="skip-link visually-hidden" href="#main">Skip to main content</a>
+
 	<header>
 		<h1>Your name</h1>
 
@@ -26,11 +35,11 @@
 			<img id="photo" height="150" width="150" src="index_files/photo.jpg" alt="Your name">
 
 			<ul>
-				<li><a href="mailto:YourEmail@YourProvider.YourDomain"><i class="fa fa-envelope fa-sm fa-fw" aria-hidden="true"></i>&nbsp;email</a></li>
-				<li><a href="index_files/cv.pdf"><i class="fa fa-file-user fa-sm fa-fw" aria-hidden="true"></i>&nbsp;cv</a></li>
-				<li><a href="https://scholar.google.com/citations?hl=en&amp;user=YourScholarID"><i class="fa fa-graduation-cap fa-sm fa-fw" aria-hidden="true"></i>&nbsp;Google scholar</a></li>
-				<li><a href="https://orcid.org/YourOrcId"><i class="fa fa-brands fa-orcid fa-sm fa-fw" aria-hidden="true"></i>&nbsp;ORCID</a></li>
-				<li><a href="https://imaging.cs.cmu.edu"><i class="fa fa-aperture fa-sm fa-fw" aria-hidden="true"></i>&nbsp;Carnegie Mellon computational imaging</a></li>
+				<li><a href="mailto:YourEmail@YourProvider.YourDomain"><i class="fa-solid fa-envelope fa-sm fa-fw" aria-hidden="true"></i>&nbsp;email</a></li>
+				<li><a href="index_files/cv.pdf"><i class="fa-solid fa-file-user fa-sm fa-fw" aria-hidden="true"></i>&nbsp;cv</a></li>
+				<li><a href="https://scholar.google.com/citations?hl=en&amp;user=YourScholarID"><i class="fa-solid fa-graduation-cap fa-sm fa-fw" aria-hidden="true"></i>&nbsp;Google scholar</a></li>
+				<li><a href="https://orcid.org/YourOrcId"><i class="fa-brands fa-orcid fa-sm fa-fw" aria-hidden="true"></i>&nbsp;ORCID</a></li>
+				<li><a href="https://imaging.cs.cmu.edu"><i class="fa-solid fa-aperture fa-sm fa-fw" aria-hidden="true"></i>&nbsp;Carnegie Mellon computational imaging</a></li>
 			</ul>
 		</div>
 
@@ -39,9 +48,9 @@
 		<p>Brief introduction.</p>
 	</header>
 
-	<main>
+	<main id="main" tabindex="-1">
 	<section id="research">
-		<h2 id="interests">Research</h2>
+		<h2>Research</h2>
 		<p>Your research overview.</p>
 	</section>
 
@@ -49,7 +58,7 @@
 		<h2>Publications</h2>
 
 		<figure class="entry">
-			<a href="https://paper.website.com"><img src="index_files/paper_icon.jpg" alt="paper title" height="80" width="80" loading="lazy"></a>
+			<a href="https://paper.website.com"><img src="index_files/paper_icon.jpg" alt="Paper title" height="80" width="80" loading="lazy"></a>
 			<figcaption>
 				<p><a href="https://paper.website.com"><strong>Paper title</strong></a><br>
 				Paper authors, <strong>Your name</strong>, other paper authors<br>
@@ -62,7 +71,7 @@
 		<h2>Teaching</h2>
 
 		<figure class="entry">
-			<a href="https://course.website.com"><img src="index_files/course_icon.jpg" alt="course name" height="80" width="80" loading="lazy"></a>
+			<a href="https://course.website.com"><img src="index_files/course_icon.jpg" alt="Course name" height="80" width="80" loading="lazy"></a>
 			<figcaption>
 				<p><a href="https://course.website.com"><strong>Course name</strong></a><br>
 				<strong>Instructor name</strong>, institution, years</p>
