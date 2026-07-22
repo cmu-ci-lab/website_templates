@@ -83,8 +83,12 @@ var ImageBox = function(parent, config) {
 			this.insetContainers.push(insetContainer);
 		}
 		// Pointer Events unify mouse, touch, and pen, the same way the comparison slider in
-		// jquery.twentytwenty.js does. touch-action is set from JS rather than CSS because
-		// derived sites keep their own copy of the template stylesheet but share this script.
+		// jquery.twentytwenty.js does. touch-action is set from JS, not CSS, because it must
+		// apply only when insets are enabled: a rule on .image-display would also hit boxes
+		// built with enableInsets: false, which bind no pointer handlers, and would kill touch
+		// scrolling over those images for nothing. (Derived sites also keep their own copies of
+		// the template stylesheet while sharing this script, so a CSS rule would have to be
+		// added to each of them.)
 		this.display.style.touchAction = "none";
 		var tracking = false;
 		this.display.addEventListener("pointerdown", function(event) {
