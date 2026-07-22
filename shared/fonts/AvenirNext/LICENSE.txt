@@ -1,0 +1,35 @@
+MyFonts Webfont Build ID 3867246, 2020-12-16T11:57:38-0500
+
+The fonts listed in this notice are subject to the End User License
+Agreement(s) entered into by the website owner. All other parties are
+explicitly restricted from using the Licensed Webfont(s).
+
+You may obtain a valid license at the URLs below.
+
+Webfont: Avenir Next Pro Regular by Linotype
+URL: https://www.myfonts.com/collections/linotype-foundry
+
+Webfont: Avenir Next Pro Italic by Linotype
+URL: https://www.myfonts.com/collections/linotype-foundry
+
+Webfont: Avenir Next Pro Demi by Linotype
+URL: https://www.myfonts.com/collections/linotype-foundry
+
+Webfont: Avenir Next Pro Demi Italic by Linotype
+URL: https://www.myfonts.com/collections/linotype-foundry
+
+(c) 2026 MyFonts Inc.
+
+---
+
+Files in this directory were extracted from the MyFonts webfont kit
+(originally shared/fonts/AvenirNextKit/) and renamed to match the
+naming convention used by the Lato files. The font binaries themselves
+are unmodified.
+
+  webFonts/AvenirNextProRegular/font.woff2    -> avenirnext-regular.woff2
+  webFonts/AvenirNextProItalic/font.woff2     -> avenirnext-italic.woff2
+  webFonts/AvenirNextProDemi/font.woff2       -> avenirnext-demi.woff2
+  webFonts/AvenirNextProDemiItalic/font.woff2 -> avenirnext-demiitalic.woff2
+
+(and likewise for the .woff files)

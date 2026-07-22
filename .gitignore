@@ -1,2 +1,10 @@
 .claude/
 CLAUDE.md
+
+# Avenir Next Pro is licensed (MyFonts webfont kit), not redistributable:
+# "All other parties are explicitly restricted from using the Licensed
+# Webfont(s)." This repo is public, so the font binaries stay out of git and
+# are uploaded to the server docroot out of band. See
+# shared/fonts/AvenirNext/LICENSE.txt (tracked) for what belongs here.
+shared/fonts/AvenirNext/*.woff2
+shared/fonts/AvenirNext/*.woff
