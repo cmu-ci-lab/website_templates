@@ -78,9 +78,6 @@
 	z-index: 9999;
 }
 
-.image-inset {
-}
-
 .selector {
 	/* Padding keeps the tap target at least ~1.5em tall (WCAG 2.5.8) */
 	padding: 0.35em 0.5em;
