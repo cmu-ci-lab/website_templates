@@ -1,8 +1,8 @@
 # Website templates for CIRL
 
 This repository provides templates for:
-* personal websites under `personal` ([example](https://www.cs.cmu.edu/~igkioule/)),
-* paper websites under `paper` ([example](https://imaging.cs.cmu.edu/volumetric_opaque_solids/)),
+* personal websites under `personal` ([example](https://imaging.cs.cmu.edu/igkioule/)),
+* paper websites under `paper` ([example](https://imaging.cs.cmu.edu/second-order-texture/)),
 * course websites under `course` ([example](https://imaging.cs.cmu.edu/15-468/)),
 * tutorial websites under `tutorial` ([example](https://imaging.cs.cmu.edu/pbr_cvpr2023/)).
 
