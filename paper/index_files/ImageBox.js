@@ -32,6 +32,15 @@ var ImageBox = function(parent, config) {
 	}
 	
 	this.display = document.createElement("img");
+	// Attributes that affect fetching have to be set before src. The optional imageWidth /
+	// imageHeight config keys reserve the right aspect ratio so the widget does not shift
+	// the page as it loads; omit them and the element behaves exactly as it did before.
+	this.display.loading = "lazy";
+	this.display.decoding = "async";
+	if (config.imageWidth && config.imageHeight) {
+		this.display.width = config.imageWidth;
+		this.display.height = config.imageHeight;
+	}
 	this.display.src = this.elements[0];
 	this.display.alt = this.names[0];
 	this.display.className = "image-display";
@@ -73,12 +82,31 @@ var ImageBox = function(parent, config) {
 			this.insets.push(insetImage);
 			this.insetContainers.push(insetContainer);
 		}
-		this.display.addEventListener("mouseover", function(event) { box.mouseOverHandler(); });
-		this.display.addEventListener("mouseout",  function(event) { box.mouseOutHandler (); });
-		this.display.addEventListener("mousemove", function(event) { box.mouseMoveHandler(event); });
-		this.insetBox.addEventListener("mouseover", function(event) { box.mouseOverHandler(); });
-		this.insetBox.addEventListener("mouseout",  function(event) { box.mouseOutHandler (); });
-		this.insetBox.addEventListener("mousemove", function(event) { box.mouseMoveHandler(event); });
+		// Pointer Events unify mouse, touch, and pen, the same way the comparison slider in
+		// jquery.twentytwenty.js does. touch-action is set from JS rather than CSS because
+		// derived sites keep their own copy of the template stylesheet but share this script.
+		this.display.style.touchAction = "none";
+		var tracking = false;
+		this.display.addEventListener("pointerdown", function(event) {
+			tracking = true;
+			// Keep receiving moves even if the finger or cursor leaves the image mid-drag.
+			if (box.display.setPointerCapture)
+				box.display.setPointerCapture(event.pointerId);
+			box.pointerMoveHandler(event);
+		});
+		this.display.addEventListener("pointermove", function(event) {
+			// A mouse tracks on hover, as before; touch and pen track only while pressed.
+			if (event.pointerType === "mouse" || tracking)
+				box.pointerMoveHandler(event);
+		});
+		this.display.addEventListener("pointerup",     function(event) { tracking = false; });
+		this.display.addEventListener("pointercancel", function(event) { tracking = false; });
+		// The inset strip sits below the image; a mouse dragged over it keeps the crops moving.
+		// Touch is left alone here so the page can still be scrolled from the strip.
+		this.insetBox.addEventListener("pointermove", function(event) {
+			if (event.pointerType === "mouse")
+				box.pointerMoveHandler(event);
+		});
 		
 		this.dummyImage = new Image();
 		this.dummyImage.src = this.elements[0];
@@ -129,26 +157,14 @@ ImageBox.prototype.keyDownHandler = function(event) {
 	}
 }
 
-ImageBox.prototype.mouseOverHandler = function() {
-	/*for (var i = 0; i < this.insets.length; i++) {
-		this.insets[i].style.backgroundImage = "url('" + this.elements[i] + "')";
-		this.insetContainers[i].style.color = 'black';
-	}*/
-	this.insetBox.style.display = 'block';
-}
-
-ImageBox.prototype.mouseOutHandler = function() {
-	/*for (var i = 0; i < this.insets.length; i++) {
-		this.insets[i].style.backgroundImage = "none";
-		this.insetContainers[i].style.color = 'white';
-	}*/
-	this.insetBox.style.display = 'block';
-}
-
-ImageBox.prototype.mouseMoveHandler = function(event) {
+ImageBox.prototype.pointerMoveHandler = function(event) {
 	var rect = this.display.getBoundingClientRect();
 	var xCoord = Math.floor((event.clientX - rect.left)*this.display.naturalWidth /this.display.width );
 	var yCoord = Math.floor((event.clientY - rect.top )*this.display.naturalHeight/this.display.height);
+	// A captured drag keeps reporting once the pointer is past the edge; clamp so the crops
+	// stop at the border of the image instead of sliding off into empty background.
+	xCoord = Math.max(0, Math.min(this.display.naturalWidth  - 1, xCoord));
+	yCoord = Math.max(0, Math.min(this.display.naturalHeight - 1, yCoord));
 	
 	for (var i = 0; i < this.insets.length; i++) {
 		var xScroll = this.insets[i].clientWidth /2 - xCoord*this.insetZoom;

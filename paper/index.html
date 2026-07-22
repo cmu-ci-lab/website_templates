@@ -5,10 +5,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#ffffff">
 	<meta name="description" content="Paper title">
-	<!--Social preview metadata: fill in per website; og:image must be an absolute URL to a raster (PNG or JPEG) image.-->
+	<!--Social preview metadata: fill in per website. og:image must be an absolute URL to a raster (PNG or JPEG) image; 1200x630 is the standard size for the summary_large_image card below. Make a dedicated preview rather than reusing the teaser, which is far too wide for a card and would be cropped to roughly its middle half. Keep og:image:width and og:image:height in sync with the image you supply.-->
 	<meta property="og:title" content="Paper title">
 	<meta property="og:description" content="Paper abstract.">
 	<meta property="og:image" content="https://your.website/index_files/preview.png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
 	<meta property="og:url" content="https://your.website/">
 	<meta property="og:type" content="article">
 	<meta name="twitter:card" content="summary_large_image">
@@ -56,6 +58,9 @@
 					"index_files/bmvs/dog/image/volsdf.png",
 				],
 				"enableInsets": true,
+				// Intrinsic size of the images above, so the widget reserves its space before they load.
+				"imageWidth": 576,
+				"imageHeight": 768,
 				"insetSize": 3.25,
 				"insetUnit": "em",
 				"insetZoom": 1.5,
@@ -64,8 +69,7 @@
 					"Ours",
 					"NeuS",
 					"VolSDF"
-				],
-				"title": "Images"
+				]
 			},
 		];
 
@@ -140,7 +144,7 @@
 		</nav>
 
 		<figure id="teaser">
-			<img src="index_files/teaser.svg" alt="One-sentence description of the teaser figure" width="708" height="199" fetchpriority="high">
+			<img src="index_files/teaser.png" alt="One-sentence description of the teaser figure" width="944" height="268" fetchpriority="high">
 			<figcaption>Teaser caption.</figcaption>
 		</figure>
 	</header>
@@ -154,8 +158,8 @@
 
 	<section id="additional">
 		<h2>Additional section</h2>
-		<figure>
-			<img src="index_files/setup.svg" alt="One-sentence description of the figure">
+		<figure class="full">
+			<img src="index_files/figure.png" alt="One-sentence description of the figure" width="944" height="268" loading="lazy">
 			<figcaption>
 				Text for additional section.
 			</figcaption>
@@ -176,10 +180,10 @@
 			<div id="overlay">
 				<div class="selector-group selector-empty"></div>
 				<div class="twentytwenty-container twentytwenty-compare-4">
-					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1">
-					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2">
-					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3">
-					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4">
+					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1" width="576" height="768">
+					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2" width="576" height="768">
+					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3" width="576" height="768">
+					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4" width="576" height="768">
 				</div>
 				<div class="image-inset-container-empty"></div>
 			</div>

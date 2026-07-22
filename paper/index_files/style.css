@@ -31,12 +31,6 @@
 	/* max-width: calc(100% - 4px); */
 }
 
-.image-box-title {
-	font-weight: normal;
-	text-align: left;
-	margin-bottom: 0.5em;
-}
-
 .image-box {
 	text-align: center;
 	margin: 0;

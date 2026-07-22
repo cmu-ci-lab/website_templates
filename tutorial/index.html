@@ -5,10 +5,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#ffffff">
 	<meta name="description" content="Tutorial title">
-	<!--Social preview metadata: fill in per website; og:image must be an absolute URL to a raster (PNG or JPEG) image.-->
+	<!--Social preview metadata: fill in per website. og:image must be an absolute URL to a raster (PNG or JPEG) image; 1200x630 is the standard size for the summary_large_image card below. Make a dedicated preview rather than reusing the teaser, which is far too wide for a card and would be cropped to roughly its middle half. Keep og:image:width and og:image:height in sync with the image you supply.-->
 	<meta property="og:title" content="Tutorial title">
 	<meta property="og:description" content="Tutorial description">
 	<meta property="og:image" content="https://your.website/index_files/preview.png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
 	<meta property="og:url" content="https://your.website/">
 	<meta property="og:type" content="website">
 	<meta name="twitter:card" content="summary_large_image">
@@ -42,7 +44,7 @@
 		</ul>
 		
 		<figure id="teaser">
-			<img src="index_files/teaser.png" alt="One-sentence description of the teaser figure" width="2951" height="1013" fetchpriority="high">
+			<img src="index_files/teaser.png" alt="One-sentence description of the teaser figure" width="944" height="268" fetchpriority="high">
 			<figcaption>Teaser caption.</figcaption>
 		</figure>
 	</header>

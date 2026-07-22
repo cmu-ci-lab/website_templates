@@ -30,10 +30,11 @@ Use icons as `<i class="fa-solid fa-envelope fa-sm fa-fw" aria-hidden="true"></i
 
 ## Figures
 
-Figures in the templates (for example, teasers) are from the example websites linked above. You should make sure to replace them with your own. To match the website width and font, your figures should have a width of 708 units (SVG user units) and use the Lato regular font with size 10.8pt. We recommend using SVG figures where possible.
+Figures in the templates (for example, teasers) are placeholders. You should make sure to replace them with your own. To match the website width and font, author your figures at a width of 944 units and use the Avenir Next Pro regular font with size 10.8pt, then export them as PNG at 4× that width (3776px). Give every `<img>` a `width` and `height` so the browser reserves the figure's space before it loads, and add `loading="lazy"` to any figure below the fold.
 
 To help you create your own figures, the folder `assets` contains:
 * an Adobe Illustrator template you can use to create figures that are compatible with the website width and font, 
+* `website.png`, the 4× export of that template, which is the placeholder figure the templates ship,
 * original files for the logo of the Carnegie Mellon computational imaging lab (originally by [Yi Hua](https://hawaiii.github.io/)).
 
 ## Paper visualizations
@@ -44,6 +45,8 @@ The `paper` template includes optional interactive visualizations: image compari
 * the visualization `<section>` in the body, and its link in the header navigation.
 
 You can then also delete the files only the visualizations use from `paper/index_files`: `ImageBox.js`, `jquery.min.js`, `jquery.twentytwenty.js`, `twentytwenty.css`, `model-viewer.min.js`, and the `bmvs` folder.
+
+The `.glb` meshes the 3D viewer loads are omitted from the repository to save space, so the model-viewer column is empty until you add your own under `paper/index_files/bmvs/dog/mesh/` (named to match the `data-mesh` values on the selector buttons).
 
 ## Third-party components
 

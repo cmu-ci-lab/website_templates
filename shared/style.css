@@ -357,6 +357,15 @@ ul.details > li {
 	font-size: 90%;
 }
 
+/* Body figure that should span the content width, like the teaser does. Opt-in via the
+   class rather than a rule on every classless figure, so a small image dropped into a
+   plain <figure> keeps its natural size instead of being stretched. Without this the
+   image is capped by its own width attribute, which only matches the content width at
+   the default font size — a larger base font widens the em-based page but not the image. */
+figure.full > img {
+	width: 100%;
+}
+
 /* Personal information */
 /* Personal photo beside a multi-column contact list */
 #personal {
