@@ -185,6 +185,7 @@
 		<p>Text for visualization section.</p>
 
 		<!--All of the code under this DIV is a visualization example, and should be adjusted to each paper.-->
+		<!--Each direct child of #demo is one column, and the CSS sizes however many there are, so a column can be deleted (or another added) without editing index_files/style.css. Deleting #threed, the usual one to drop since most papers have no meshes, also means removing the model-viewer script at the end of HEAD; its CSS rule is then left matching nothing, which is harmless.-->
 		<div id="demo">
 			<div id="overlay">
 				<div class="twentytwenty-container twentytwenty-compare-4">

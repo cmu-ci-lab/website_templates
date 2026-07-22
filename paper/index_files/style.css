@@ -4,23 +4,40 @@
 
 /* Custom visualization code */
 
-/* The three visualization columns share one set of rows — selector buttons, then the
-   media, then the (optional) inset strip — so the parts line up horizontally. Each column
-   is a subgrid of those rows, which means a column that is missing a part still places the
+/* The visualization columns share one set of rows — selector buttons, then the media,
+   then the (optional) inset strip — so the parts line up horizontally. Each column is a
+   subgrid of those rows, which means a column that is missing a part still places the
    parts it does have on the same lines as its neighbours: the comparison slider has no
    buttons, and no column has an inset strip unless ImageBox is configured for one. Don't
    go back to aligning inline-blocks with spacer divs of a guessed height — the rows drift
-   apart as soon as any column gains or loses a part. */
+   apart as soon as any column gains or loses a part.
+
+   The column count is deliberately not written down anywhere: grid-auto-columns sizes
+   however many children #demo has, so deleting a column (#threed is the usual one, since
+   most papers have no meshes) needs no CSS change. Don't put it back as
+   grid-template-columns: repeat(3, 1fr) — that keeps three tracks whatever the markup
+   says, leaving a third of the row empty. repeat(auto-fit, …) is not an alternative
+   either: auto-fit cannot take a flexible track size and collapses to a single column.
+
+   The third row stays declared even though the shipped config sets enableInsets: false.
+   With no row-gap an unoccupied row resolves to 0px, so it costs nothing, and it is what
+   lets insets be switched on without touching this file. Cutting the row list to
+   "auto auto" would push .image-inset-box (grid-row: 3) outside the subgrid's span, where
+   it gets clamped into the media row and the crops land on top of the image. */
 #demo {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
 	grid-template-rows: auto auto auto;
 	column-gap: 0.5em;
 	width: calc(100% - 1em);
 	margin: 0 0 1em 1em;
 }
 
-#overlay, #insets, #threed {
+/* Every direct child of #demo is a column. Selecting them by position rather than by id
+   means a column can be added or removed without editing this rule too — with an id list,
+   a new column silently fails to become a subgrid and its rows drift out of line. */
+#demo > div {
 	display: grid;
 	grid-row: 1 / -1;
 	grid-template-rows: subgrid;
@@ -138,7 +155,7 @@ model-viewer {
 		display: block;
 	}
 
-	#overlay, #insets, #threed {
+	#demo > div {
 		display: block;
 		width: 100%;
 		margin: 0 0 1em 0;
