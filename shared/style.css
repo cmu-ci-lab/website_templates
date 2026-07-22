@@ -316,8 +316,12 @@ nav > ul {
 	font-size: 110%;
 }
 
+/* Nav items sit on a single row. Today this matches only the paper template and
+   the sites derived from it: personal has no <nav>, and course and tutorial use an
+   inline <nav> of comma-separated links with no <ul> inside. A page that wants its
+   nav stacked should override display in its own index_files/style.css. */
 nav > ul > li {
-	/* display: inline-block; */
+	display: inline-block;
 	margin-right: 1em;
 	margin-left: 0;
 }

@@ -103,6 +103,14 @@
                 if (numImgs == 2)
                 {
                     imgs[0].css("clip-path", "inset(0px " + (offset.w2 - offset.cw2) + "px 0px 0px)");
+                    // The lower image must be clipped to its own side too. This looks
+                    // redundant — imgs[0] paints above it via .twentytwenty-1 — but it is
+                    // required for images with an alpha channel: left unclipped, imgs[1]
+                    // covers the whole container and shows through every transparent pixel
+                    // of imgs[0], so the two images appear overlaid on imgs[0]'s side.
+                    // The 3- and 4-image branches below clip every image, so only this
+                    // branch needs it. Do not remove.
+                    imgs[1].css("clip-path", "inset(0px 0px 0px " + offset.cw + ")");
 
                     labels[0].css({right: offset.w2 - offset.cw2});
                     labels[1].css({left: offset.cw2});
@@ -129,7 +137,7 @@
                 {
                     imgs[0].css("clip-path", "inset(0px " + (offset.w2 - offset.cw2) + "px " + (offset.h2  - offset.ch2) + "px 0px)");
                     imgs[1].css("clip-path", "inset(0px 0px " + (offset.h2  - offset.ch2) + "px " + offset.cw + ")");
-                    imgs[2].css("clip-path", "inset(" + offset.ch + " " + (offset.w2 - offset.cw2) + "px 0px 0px");
+                    imgs[2].css("clip-path", "inset(" + offset.ch + " " + (offset.w2 - offset.cw2) + "px 0px 0px)");
                     imgs[3].css("clip-path", "inset(" + offset.ch + " 0px 0px 0px)");
 
                     frames[0].css({width: offset.cw2, height: offset.ch2});
