@@ -14,14 +14,18 @@
 	<meta name="twitter:card" content="summary_large_image">
 	<!--If this page is reachable at multiple URLs, uncomment this line and set it to the preferred URL.-->
 	<!--<link rel="canonical" href="https://your.website/">-->
-	<!--This line will work only if your website is hosted under a graphics.cs.cmu.edu or imaging.cs.cmu.edu domain.-->
-	<script defer src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
-	<link rel="icon" href="index_files/favicon.png" type="image/png">
-	<link rel="icon" href="index_files/imaging.svg" type="image/svg+xml">
-	<!--Preload only the two font faces used above the fold.-->
-	<link rel="preload" href="index_files/fonts/lato-regular.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="index_files/fonts/lato-bold.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="stylesheet" href="index_files/style.css">
+	<link rel="icon" href="/shared/favicon.png" type="image/png">
+	<link rel="icon" href="/shared/imaging.svg" type="image/svg+xml">
+	<!--Preload only the font faces used above the fold. Font Awesome sets font-display: block, so without the preload the icons below render as blank space until the font arrives.-->
+	<link rel="preload" href="/shared/fonts/lato-regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/shared/fonts/lato-bold.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/shared/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/shared/fontawesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+	<!--Font Awesome Free: the icon-name map, then the styles used. Drop brands.min.css (and its preload above) if you remove every fa-brands icon.-->
+	<link rel="stylesheet" href="/shared/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/shared/fontawesome/css/solid.min.css">
+	<link rel="stylesheet" href="/shared/fontawesome/css/brands.min.css">
+	<link rel="stylesheet" href="/shared/style.css">
 	<title>Your name</title>
 </head>
 
@@ -36,10 +40,10 @@
 
 			<ul>
 				<li><a href="mailto:YourEmail@YourProvider.YourDomain"><i class="fa-solid fa-envelope fa-sm fa-fw" aria-hidden="true"></i>&nbsp;email</a></li>
-				<li><a href="index_files/cv.pdf"><i class="fa-solid fa-file-user fa-sm fa-fw" aria-hidden="true"></i>&nbsp;cv</a></li>
+				<li><a href="index_files/cv.pdf"><i class="fa-solid fa-address-card fa-sm fa-fw" aria-hidden="true"></i>&nbsp;cv</a></li>
 				<li><a href="https://scholar.google.com/citations?hl=en&amp;user=YourScholarID"><i class="fa-solid fa-graduation-cap fa-sm fa-fw" aria-hidden="true"></i>&nbsp;Google scholar</a></li>
 				<li><a href="https://orcid.org/YourOrcId"><i class="fa-brands fa-orcid fa-sm fa-fw" aria-hidden="true"></i>&nbsp;ORCID</a></li>
-				<li><a href="https://imaging.cs.cmu.edu"><i class="fa-solid fa-aperture fa-sm fa-fw" aria-hidden="true"></i>&nbsp;Carnegie Mellon computational imaging</a></li>
+				<li><a href="https://imaging.cs.cmu.edu"><i class="fa-solid fa-camera-retro fa-sm fa-fw" aria-hidden="true"></i>&nbsp;Carnegie Mellon computational imaging</a></li>
 			</ul>
 		</div>
 

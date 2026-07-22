@@ -1,5 +1,6 @@
 /* ============================================================
-   Shared base — keep byte-identical across all four templates
+   Shared base — served from /shared/style.css, loaded by every
+   template. Edit here once; all templates pick up the change.
    ============================================================ */
 
 /* Color palette */
@@ -13,6 +14,9 @@
 	--border-soft: #ddd;
 	--award-bg: #fff3e0;
 	--button-hover: #d0d0d0;
+	/* Body font stack. To swap fonts, add @font-face blocks below and
+	   prepend the new family here (e.g. 'Avenir Next', 'Lato', ...). */
+	--body-font: 'Lato', Verdana, Helvetica, sans-serif;
 }
 
 /* Load fonts */
@@ -54,7 +58,7 @@ body {
 	max-width: 60em;
 	margin: auto;
 	padding: 1em;
-	font-family: 'Lato', Verdana, Helvetica, sans-serif;
+	font-family: var(--body-font);
 	font-size: 1em;
 	color: var(--text);
 }
@@ -474,6 +478,3 @@ footer {
 	}
 }
 
-/* ============================================================
-   Template-specific styles (this template only)
-   ============================================================ */

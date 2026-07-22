@@ -24,20 +24,25 @@
 	<meta name="citation_pdf_url" content="https://your.website/index_files/paper.pdf">
 	<meta name="citation_arxiv_id" content="XXXX.XXXXX">
 	-->
-	<!--This line will work only if your website is hosted under a graphics.cs.cmu.edu or imaging.cs.cmu.edu domain.-->
-	<script defer src="https://kit.fontawesome.com/3058f11e8e.js" crossorigin="anonymous"></script>
-	<link rel="icon" href="index_files/favicon.png" type="image/png">
-	<link rel="icon" href="index_files/imaging.svg" type="image/svg+xml">
-	<!--Preload only the two font faces used above the fold.-->
-	<link rel="preload" href="index_files/fonts/lato-regular.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="index_files/fonts/lato-bold.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="stylesheet" href="index_files/style.css">
+	<link rel="icon" href="/shared/favicon.png" type="image/png">
+	<link rel="icon" href="/shared/imaging.svg" type="image/svg+xml">
+	<!--Preload only the font faces used above the fold. Font Awesome sets font-display: block, so without the preload the icons below render as blank space until the font arrives.-->
+	<link rel="preload" href="/shared/fonts/lato-regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/shared/fonts/lato-bold.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/shared/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/shared/fontawesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+	<!--Font Awesome Free: the icon-name map, then the styles used. Drop brands.min.css (and its preload above) if you remove every fa-brands icon.-->
+	<link rel="stylesheet" href="/shared/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/shared/fontawesome/css/solid.min.css">
+	<link rel="stylesheet" href="/shared/fontawesome/css/brands.min.css">
+	<link rel="stylesheet" href="/shared/style.css">
 	<title>Paper title</title>
 
 	<!--The remaining lines in HEAD are only needed for visualizations and can be removed otherwise.-->
 	<script defer src="index_files/ImageBox.js"></script>
 	<script defer src="index_files/jquery.min.js"></script>
 	<script defer src="index_files/jquery.twentytwenty.js"></script>
+	<link href="index_files/style.css" rel="stylesheet">
 	<link href="index_files/twentytwenty.css" rel="stylesheet">
 	<script src="index_files/model-viewer.min.js" type="module"></script>
 
@@ -115,12 +120,12 @@
 	<a class="skip-link visually-hidden" href="#main">Skip to main content</a>
 
 	<header>
-		<a href="https://imaging.cs.cmu.edu/"><img id="logo" width="64" height="64" src="index_files/imaging.svg" alt="Carnegie Mellon Computational Imaging"></a>
+		<a href="https://imaging.cs.cmu.edu/"><img id="logo" width="64" height="64" src="/shared/imaging.svg" alt="Carnegie Mellon Computational Imaging"></a>
 		<a href="index.html"><h1>Paper title</h1></a>
 
 		<p class="authors"><a href="https://first.author.website">First author name</a>, <a href="https://second.author.website/">Second author name</a></p>
 
-		<p class="venue">Publication venue and year<span class="award"><i class="fa-duotone fa-trophy fa-sm fa-fw" aria-hidden="true"></i>&nbsp;paper award (if applicable)</span></p>
+		<p class="venue">Publication venue and year<span class="award"><i class="fa-solid fa-trophy fa-sm fa-fw" aria-hidden="true"></i>&nbsp;paper award (if applicable)</span></p>
 
 		<nav aria-label="Page sections">
 			<ul>
@@ -130,7 +135,7 @@
 				<li><a href="#paper"><i class="fa-solid fa-file-pdf fa-fw" aria-hidden="true"></i>&nbsp;paper</a></li>
 				<li><a href="#code"><i class="fa-brands fa-github fa-fw" aria-hidden="true"></i>&nbsp;code</a></li>
 				<li><a href="#data"><i class="fa-solid fa-database fa-fw" aria-hidden="true"></i>&nbsp;data</a></li>
-				<li><a href="#citation"><i class="fa-solid fa-quotes fa-fw" aria-hidden="true"></i>&nbsp;citation</a></li>
+				<li><a href="#citation"><i class="fa-solid fa-quote-left fa-fw" aria-hidden="true"></i>&nbsp;citation</a></li>
 			</ul>
 		</nav>
 
@@ -230,9 +235,9 @@
 
 		<p id="paper"><strong><i class="fa-solid fa-file-pdf" aria-hidden="true"></i>&nbsp;Paper:</strong> Our paper and supplement are available on <a href="https://publisher.link">official publisher name</a>, on <a href="https://arxiv.org/abs/ArxivId">arXiv</a>, and <a href="index_files/paper.pdf">locally</a>.</p>
 
-		<p id="poster"><strong><i class="fa-solid fa-sign-posts" aria-hidden="true"></i>&nbsp;Poster:</strong> Our poster is available <a href="index_files/poster.pdf">here</a>.</p>
+		<p id="poster"><strong><i class="fa-solid fa-signs-post" aria-hidden="true"></i>&nbsp;Poster:</strong> Our poster is available <a href="index_files/poster.pdf">here</a>.</p>
 
-		<p id="presentation"><strong><i class="fa-solid fa-presentation-screen" aria-hidden="true"></i>&nbsp;Presentation:</strong> Our presentation slides are available <a href="index_files/presentation.pdf">here</a>.</p>
+		<p id="presentation"><strong><i class="fa-solid fa-display" aria-hidden="true"></i>&nbsp;Presentation:</strong> Our presentation slides are available <a href="index_files/presentation.pdf">here</a>.</p>
 
 		<p id="code"><strong><i class="fa-brands fa-github" aria-hidden="true"></i>&nbsp;Code:</strong> Our code is available on <a href="https://github.com/cmu-ci-lab/GitHubLink">Github</a>.</p>
 
