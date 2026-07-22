@@ -336,6 +336,13 @@ ul.details > li {
 }
 
 /* Teaser figure in header */
+/* The following section's h2 supplies the spacing below the teaser. A flex section
+   (#presenters) cannot collapse its h2's top margin, so a margin here would stack
+   with it and open a 40px gap instead of the usual 24px. */
+#teaser {
+	margin-bottom: 0;
+}
+
 #teaser > img {
 	width: 100%;
 	margin: 0 0 0.5em 0;
