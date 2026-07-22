@@ -143,8 +143,12 @@ ImageBox.prototype.selectImage = function(idx) {
 ImageBox.prototype.keyDownHandler = function(event) {
 	if (event.ctrlKey || event.metaKey || event.altKey)
 		return;
-	if ((event.key == "+" || event.key == "-") && this.insetContainers) {
-		if (event.key == "+")
+	// "=" and "_" are the unshifted/shifted twins of "+" and "-" on a US keyboard, so zooming
+	// works whether or not Shift is held.
+	var zoomIn  = (event.key == "+" || event.key == "=");
+	var zoomOut = (event.key == "-" || event.key == "_");
+	if ((zoomIn || zoomOut) && this.insetContainers) {
+		if (zoomIn)
 			this.insetSize *= 2;
 		else
 			this.insetSize /= 2;

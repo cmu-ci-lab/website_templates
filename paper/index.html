@@ -57,13 +57,10 @@
 					"index_files/bmvs/dog/image/neus.png",
 					"index_files/bmvs/dog/image/volsdf.png",
 				],
-				"enableInsets": true,
+				"enableInsets": false,
 				// Intrinsic size of the images above, so the widget reserves its space before they load.
 				"imageWidth": 576,
 				"imageHeight": 768,
-				"insetSize": 3.25,
-				"insetUnit": "em",
-				"insetZoom": 1.5,
 				"names": [
 					"Reference",
 					"Ours",
@@ -82,12 +79,23 @@
 					new ImageBox(insets, config);
 			}
 
-			// Comparison slider — needs jQuery and the plugin; wait for the source images to decode so it can read their dimensions.
+			// Comparison sliders — need jQuery and the plugin; wait for a container's own source images to decode so it can read their dimensions.
+			// Each container is initialized separately, and only once it is near the viewport: browsers deprioritize decoding offscreen images, so
+			// waiting on every image on the page can stall every slider behind one that is far below the fold.
 			const containers = document.querySelectorAll(".twentytwenty-container");
 			if (containers.length && window.jQuery && jQuery.fn.twentytwenty) {
-				const images = Array.from(document.querySelectorAll(".twentytwenty-container img"));
-				Promise.all(images.map((img) => img.decode().catch(() => {})))
-					.then(() => jQuery(".twentytwenty-container").twentytwenty({default_offset_pct_x: 0.5, default_offset_pct_y: 0.5}));
+				const observer = new IntersectionObserver((entries) => {
+					for (const entry of entries) {
+						if (!entry.isIntersecting)
+							continue;
+						observer.unobserve(entry.target);
+						const images = Array.from(entry.target.querySelectorAll("img"));
+						Promise.all(images.map((img) => img.decode().catch(() => {})))
+							.then(() => jQuery(entry.target).twentytwenty({default_offset_pct_x: 0.5, default_offset_pct_y: 0.5}));
+					}
+				}, {rootMargin: "200px"});
+				for (const container of containers)
+					observer.observe(container);
 			}
 
 			// Copy-to-clipboard for the citation (present even without the visualization block).
@@ -178,14 +186,12 @@
 		<!--All of the code under this DIV is a visualization example, and should be adjusted to each paper.-->
 		<div id="demo">
 			<div id="overlay">
-				<div class="selector-group selector-empty"></div>
 				<div class="twentytwenty-container twentytwenty-compare-4">
 					<img src="index_files/bmvs/dog/image/ref.png" alt="Reference" class="twentytwenty-1" width="576" height="768">
 					<img src="index_files/bmvs/dog/image/ours.png" alt="Ours" class="twentytwenty-2" width="576" height="768">
 					<img src="index_files/bmvs/dog/image/volsdf.png" alt="VolSDF" class="twentytwenty-3" width="576" height="768">
 					<img src="index_files/bmvs/dog/image/neus.png" alt="NeuS" class="twentytwenty-4" width="576" height="768">
 				</div>
-				<div class="image-inset-container-empty"></div>
 			</div>
 			<div id="insets">
 			</div>
@@ -199,7 +205,6 @@
 				<model-viewer src="index_files/bmvs/dog/mesh/ours.glb" loading="lazy" shadow-intensity="1" camera-controls touch-action="pan-y" auto-rotate alt="3D reconstruction of the dog scene (Ours)">
 					<noscript><p>This interactive 3D model requires JavaScript and WebGL.</p></noscript>
 				</model-viewer>
-				<div class="image-inset-container image-inset-container-empty"></div>
 
 				<script type="module">
 					const modelViewer = document.querySelector("model-viewer");

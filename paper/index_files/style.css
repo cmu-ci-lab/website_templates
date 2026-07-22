@@ -3,17 +3,44 @@
    ============================================================ */
 
 /* Custom visualization code */
+
+/* The three visualization columns share one set of rows — selector buttons, then the
+   media, then the (optional) inset strip — so the parts line up horizontally. Each column
+   is a subgrid of those rows, which means a column that is missing a part still places the
+   parts it does have on the same lines as its neighbours: the comparison slider has no
+   buttons, and no column has an inset strip unless ImageBox is configured for one. Don't
+   go back to aligning inline-blocks with spacer divs of a guessed height — the rows drift
+   apart as soon as any column gains or loses a part. */
 #demo {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: auto auto auto;
+	column-gap: 0.5em;
 	width: calc(100% - 1em);
 	margin: 0 0 1em 1em;
 }
 
 #overlay, #insets, #threed {
-	display: inline-block;
-	width: calc(33% - 0.5em);
-	margin: 0 0.25em 0 0.25em;
-	box-sizing: border-box;
-	vertical-align: middle;
+	display: grid;
+	grid-row: 1 / -1;
+	grid-template-rows: subgrid;
+}
+
+.selector-group {
+	grid-row: 1;
+}
+
+/* align-self keeps a shorter item (the square 3D view) at the top of the media row
+   instead of being stretched to the height of the tallest one. */
+#overlay > .twentytwenty-container, .image-display, model-viewer {
+	grid-row: 2;
+	align-self: start;
+}
+
+/* ImageBox wraps its buttons and image in .image-box; display: contents lets them join
+   the column's grid directly instead of nesting a box inside a single row. */
+.image-box {
+	display: contents;
 }
 
 #overlay > .twentytwenty-container {
@@ -33,22 +60,17 @@
 
 .image-box {
 	text-align: center;
-	margin: 0;
-	padding: 0;
 }
 
-.image-inset-container, .image-inset-container-empty {
+.image-inset-container {
 	display: inline-block;
 	margin: 0.25em;
 	text-align: center;
 	font-weight: normal;
 }
 
-.image-inset-container-empty {
-	height: calc(4.25em + 4px);
-}
-
 .image-inset-box {
+	grid-row: 3;
 	margin: 0;
 	padding: 0;
 	text-align: center;
@@ -59,7 +81,7 @@
 .image-inset {
 }
 
-.selector, .selector-empty {
+.selector {
 	/* Padding keeps the tap target at least ~1.5em tall (WCAG 2.5.8) */
 	padding: 0.35em 0.5em;
 	color: var(--link);
@@ -72,10 +94,6 @@
 	background: transparent;
 	cursor: pointer;
 	margin: 0;
-}
-
-.selector-empty {
-	height: 1em;
 }
 
 .selector.active {
@@ -116,8 +134,13 @@ model-viewer {
 	margin: 0;
 }
 
-/* Stack the visualization columns on narrow screens */
+/* Stack the visualization columns on narrow screens: one under the other, so there are no
+   rows left to line up and the grid is dropped entirely. */
 @media (max-width: 48em) {
+	#demo {
+		display: block;
+	}
+
 	#overlay, #insets, #threed {
 		display: block;
 		width: 100%;

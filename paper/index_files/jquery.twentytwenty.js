@@ -48,6 +48,9 @@
 
             container.css("max-width", imgs[referenceIndex].get(0).naturalWidth);
             container.addClass("twentytwenty-compare-" + numImgs)
+            // Tells the stylesheet the widget is live, so it can stop reserving the
+            // container's box with the first image and hand layout back to the overlay.
+            container.addClass("twentytwenty-init")
 
             for (var i = 0; i < numImgs; i++)
                 imgs[i].addClass("twentytwenty-" + (i+1));

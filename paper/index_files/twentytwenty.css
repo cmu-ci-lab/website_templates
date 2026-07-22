@@ -27,6 +27,18 @@
     max-width: 100%;
     height: auto;
 }
+/* Every image is out of flow, so a container the plugin has not initialized yet would
+   collapse to a 2px line and the page would jump when it does. Keep the first image in
+   flow until then: its width/height attributes give the container the box it will end up
+   with. The plugin adds .twentytwenty-init once it has run, which hands layout back to
+   the absolute positioning above — the overlay it appends is in flow and would otherwise
+   be pushed below the image, taking the labels and frames with it. */
+.twentytwenty-container > img:first-of-type {
+    position: relative;
+}
+.twentytwenty-init > img:first-of-type {
+    position: absolute;
+}
 .twentytwenty-container * {
     box-sizing: content-box;
 }
