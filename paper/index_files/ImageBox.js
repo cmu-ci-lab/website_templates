@@ -166,9 +166,17 @@ ImageBox.prototype.keyDownHandler = function(event) {
 }
 
 ImageBox.prototype.pointerMoveHandler = function(event) {
+	// getBoundingClientRect returns the BORDER box, but display.width/height are the rendered
+	// CONTENT size, so the pointer offset has to start at the content box or the two disagree
+	// by the border. .image-display carries a 2px border under box-sizing: border-box, which
+	// left every crop shifted by border * naturalWidth / contentWidth — about 5 source pixels
+	// on a 1200px image — and made the last few columns and rows unreachable, since they
+	// mapped past naturalWidth and got clamped. clientLeft/clientTop are exactly those border
+	// widths. (They do not include padding; .image-display has none, and padding on a
+	// replaced element would need the computed style, which is too costly per pointermove.)
 	var rect = this.display.getBoundingClientRect();
-	var xCoord = Math.floor((event.clientX - rect.left)*this.display.naturalWidth /this.display.width );
-	var yCoord = Math.floor((event.clientY - rect.top )*this.display.naturalHeight/this.display.height);
+	var xCoord = Math.floor((event.clientX - rect.left - this.display.clientLeft)*this.display.naturalWidth /this.display.width );
+	var yCoord = Math.floor((event.clientY - rect.top  - this.display.clientTop )*this.display.naturalHeight/this.display.height);
 	// A captured drag keeps reporting once the pointer is past the edge; clamp so the crops
 	// stop at the border of the image instead of sliding off into empty background.
 	xCoord = Math.max(0, Math.min(this.display.naturalWidth  - 1, xCoord));
